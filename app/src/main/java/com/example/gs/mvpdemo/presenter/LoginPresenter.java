@@ -43,14 +43,13 @@ public class LoginPresenter extends BasePresenter<LoginActivity> implements
 
     @Override
     public HashMap<String, IModel> getiModelMap() {
-        return loadModelMap(new LoginModel(), new LoginModel());
+        return loadModelMap(new LoginModel());
     }
 
     @Override
     public HashMap<String, IModel> loadModelMap(IModel... models) {
         HashMap<String, IModel> map = new HashMap<>();
         map.put("login", models[0]);
-        map.put("login", models[1]);
         return map;
     }
 }

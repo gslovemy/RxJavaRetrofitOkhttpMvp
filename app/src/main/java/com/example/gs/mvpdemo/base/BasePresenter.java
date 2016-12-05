@@ -39,6 +39,11 @@ public abstract class BasePresenter<V extends IView> implements IPresenter {
         return (V) actReference.get();
     }
 
+    /**
+     * @param models
+     * @return
+     * 添加多个model,如有需要
+     */
     public abstract HashMap<String, IModel> loadModelMap(IModel... models);
 
 }
