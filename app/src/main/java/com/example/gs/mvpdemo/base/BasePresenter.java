@@ -5,6 +5,7 @@ import com.example.gs.mvpdemo.mvp.IPresenter;
 import com.example.gs.mvpdemo.mvp.IView;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 
 /**
  * Created by GaoSheng on 2016/11/26.
@@ -14,15 +15,11 @@ import java.lang.ref.WeakReference;
  * com.example.gs.mvpdemo.base
  */
 
-public abstract class BasePresenter<M extends IModel, V extends IView> implements IPresenter {
+public abstract class BasePresenter<V extends IView> implements IPresenter {
     private WeakReference actReference;
     protected V iView;
-    protected M iModel;
 
-    public M getiModel() {
-        iModel = loadModel(); //使用前先进行初始化
-        return iModel;
-    }
+    public abstract HashMap<String, IModel> getiModelMap();
 
     @Override
     public void attachView(IView iView) {
@@ -42,5 +39,6 @@ public abstract class BasePresenter<M extends IModel, V extends IView> implement
         return (V) actReference.get();
     }
 
-    public abstract M loadModel();
+    public abstract HashMap<String, IModel> loadModelMap(IModel... models);
+
 }

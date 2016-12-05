@@ -4,7 +4,10 @@ import com.example.gs.mvpdemo.activity.LoginActivity;
 import com.example.gs.mvpdemo.base.BasePresenter;
 import com.example.gs.mvpdemo.contract.LoginContract;
 import com.example.gs.mvpdemo.model.LoginModel;
+import com.example.gs.mvpdemo.mvp.IModel;
 import com.example.gs.mvpdemo.utils.LogUtils;
+
+import java.util.HashMap;
 
 /**
  * Created by GaoSheng on 2016/11/26.
@@ -14,13 +17,14 @@ import com.example.gs.mvpdemo.utils.LogUtils;
  * com.example.gs.mvpdemo.presenter
  */
 
-public class LoginPresenter extends BasePresenter<LoginModel, LoginActivity> implements
+public class LoginPresenter extends BasePresenter<LoginActivity> implements
         LoginContract.LoginPresenter {
 
     @Override
     public void login(String name, String pwd) {
         if (!getIView().checkNull()) {
-            getiModel().login(name, pwd, new LoginModel.InfoHint() {
+            ((LoginModel) getiModelMap().get("login")).login(name, pwd, new LoginModel
+                    .InfoHint() {
                 @Override
                 public void successInfo(String str) {
                     getIView().loginSuccess(str);  //成功
@@ -28,7 +32,7 @@ public class LoginPresenter extends BasePresenter<LoginModel, LoginActivity> imp
 
                 @Override
                 public void failInfo(String str) {
-                    LogUtils.e("LoginPresenter.failInfo",str);
+                    LogUtils.e("LoginPresenter.failInfo", str);
 
                     getIView().loginFail(str);  //失败
                 }
@@ -36,8 +40,17 @@ public class LoginPresenter extends BasePresenter<LoginModel, LoginActivity> imp
         }
     }
 
+
     @Override
-    public LoginModel loadModel() {
-        return new LoginModel();
+    public HashMap<String, IModel> getiModelMap() {
+        return loadModelMap(new LoginModel(), new LoginModel());
+    }
+
+    @Override
+    public HashMap<String, IModel> loadModelMap(IModel... models) {
+        HashMap<String, IModel> map = new HashMap<>();
+        map.put("login", models[0]);
+        map.put("login", models[1]);
+        return map;
     }
 }
