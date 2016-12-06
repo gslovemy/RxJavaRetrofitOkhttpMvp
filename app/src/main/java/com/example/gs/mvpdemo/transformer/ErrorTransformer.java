@@ -40,7 +40,7 @@ public class ErrorTransformer<T> implements Observable.Transformer<BaseHttpResul
         }).onErrorResumeNext(new Func1<Throwable, Observable<? extends T>>() {
             @Override
             public Observable<? extends T> call(Throwable throwable) {
-                //ExceptionEngine为处理异常的驱动器
+                //ExceptionEngine为处理异常的驱动器throwable
                 throwable.printStackTrace();
                 return Observable.error(ExceptionEngine.handleException(throwable));
             }

@@ -19,10 +19,10 @@ import com.example.gs.mvpdemo.transformer.CommonTransformer;
  */
 
 public class LoginModel extends BaseModel {
+    private boolean isLogin = false;
 
     public boolean login(@NonNull String username, @NonNull String pwd, @NonNull final InfoHint
             infoHint) {
-        boolean isLogin = false;
 
         if (infoHint == null)
             throw new RuntimeException("InfoHint不能为空");
@@ -32,22 +32,17 @@ public class LoginModel extends BaseModel {
                 .subscribe(new CommonSubscriber<LoginBean>(ProApplication.getmContext()) {
                     @Override
                     public void onNext(LoginBean loginBean) {
+                        isLogin = true;
                         infoHint.successInfo(loginBean.getToken());
                     }
 
                     @Override
                     protected void onError(ApiException e) {
                         super.onError(e);
+                        isLogin = false;
                         infoHint.failInfo(e.message);
                     }
                 });
-
-
-        if ("gs".equals(username) && "123".equals(pwd)) {
-            isLogin = true;
-        } else {
-            isLogin = false;
-        }
         return isLogin;
     }
 

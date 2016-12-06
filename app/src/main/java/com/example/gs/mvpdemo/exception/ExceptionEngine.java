@@ -8,6 +8,8 @@ import org.json.JSONException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import retrofit2.adapter.rxjava.HttpException;
+
 /**
  * Created by gaosheng on 2016/11/6.
  * 22:15
@@ -80,6 +82,16 @@ public class ExceptionEngine {
             ex = new ApiException(e, ErrorType.NETWORK_ERROR);
             ex.message = "连接失败";  //均视为网络错误
             return ex;
+        } else if (e instanceof HttpException) {
+            if ("HTTP 404 Not Found".equals(e.getMessage())) {
+                ex = new ApiException(e, ErrorType.NETWORK_ERROR);
+                ex.message = "没有连接服务器";
+            } else {
+                ex = new ApiException(e, ErrorType.NETWORK_ERROR);
+                ex.message = "其他连接服务器错误";
+            }
+            return ex;
+
         } else {
             ex = new ApiException(e, ErrorType.UNKONW);
             ex.message = "未知错误";          //未知错误
