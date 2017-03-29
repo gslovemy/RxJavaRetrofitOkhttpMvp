@@ -30,7 +30,7 @@ public class Http {
 
     private static OkHttpClient client;
     private static HttpService httpService;
-    private static Retrofit retrofit;
+    private  static volatile Retrofit retrofit;
 
 
     /**
